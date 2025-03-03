@@ -20,7 +20,16 @@ import { useProductsStore } from "../../store/products_store.js";
 
 const DisplayProducts = ({showOwnerButtons}) =>
 {
-    const getURL = "/api/products"; // url to use for the get All API Call
+    /** If on the Manage Products Page (Owner only page), then show all products.  Otherwise, only show the products in the store. */
+    let getURL = "";
+    if (showOwnerButtons === "yes")
+    {
+        getURL = "/api/products";
+    }
+    else
+    {
+        getURL = "/api/products?inStore=yes"
+    }
     /** Make a copy of products store based on the contents of the database so that filtering can be done. */
     const { getProductsCopy, productsCopy } = useProductsStore();
     useEffect(() => {
