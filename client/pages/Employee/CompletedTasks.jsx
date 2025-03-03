@@ -33,7 +33,7 @@ const CompletedTasks = () =>
             </Heading>
             <br /><br />
             
-            {/** Display Completed Tasks */}
+            {/** Display Completed Tasks. */}
             <DisplayCompletedTasks />
 
             {/* Make the Toaster object so that the toast popup can be created and displayed as needed */}
