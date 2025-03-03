@@ -20,10 +20,6 @@ import productRoutes from "./routes/products_routes.js";
 import authRoutes from "./routes/auth_routes.js";
 import tasksRoutes from "./routes/tasks_routes.js";
 
-/** Set up dirname and filename. */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 /** Instantiate server. */
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,6 +31,12 @@ app.use((req, res, next) =>
         next();
     }
 );
+
+/**
+ * Set up dirname for deployment.
+ * Source: https://youtu.be/O3BUHwfHf84?si=xXxU_GtkHSrkPldO
+*/
+const __dirname = path.resolve();
 
 /**
  * Allow the frontend to access resources from the server, and enable parsing cookies from the URL.
@@ -72,6 +74,25 @@ app.use("/api", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/tasks", tasksRoutes);
+
+/**
+ * Setting app up for deployment.
+ * Serve index.html and use app under 1 port.
+ * Source: https://youtu.be/O3BUHwfHf84?si=xXxU_GtkHSrkPldO
+ */
+if (process.env.NODE_ENV === "Prod")
+    {
+        /** Serve up /client/dist folder as static asset. */
+        app.use(express.static(path.join(__dirname, "/client/dist")));
+        /** If using any route other than the above routes, then return the index.html file (react app). */
+        app.get
+        (
+            "*", (req, res) =>
+            {
+                res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+            }
+        );
+    }
 
 /** Start server, and connect to the MongoDB database. */
 app.listen(PORT, () =>

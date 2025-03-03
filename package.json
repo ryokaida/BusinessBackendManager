@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server/server.js"
+    "dev": "NODE_ENV=Test nodemon server/server.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client",
+    "test": "NODE_ENV=Test node server/server.js & python -m pytest tests/",
+    "start": "NODE_ENV=Prod node server/server.js"
   },
   "keywords": [],
   "author": "",
