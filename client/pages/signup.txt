@@ -1,0 +1,183 @@
+"use client"
+
+import { Box, Input, Heading, Stack } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Field } from "/src/components/ui/field";
+import { PasswordInput } from "/src/components/ui/password-input";
+
+const Signup = () =>
+{
+    const [visible, setVisible] = useState(false);
+    // const navigate = useNavigate();
+    // const [inputValue, setInputvalue] = useState(
+    // {
+    //     email: "",
+    //     password: "",
+    //     name: "",
+    //     role: "guest"
+    // });
+    // const { email, password, name, role } = inputValue;
+    // const handleOnChange = (e) =>
+    // {
+    //     const { name, value } = e.target;
+    //     setInputvalue(
+    //     {
+    //         ...inputValue,
+    //         [name]: value,
+    //     });
+    // };
+    // const handleSubmit = async (e) =>
+    // {
+    //     e.preventDefault();
+    //     try
+    //     {
+    //         const { data } = await fetch("",
+    //         {
+    //             method: "POST",
+    //             body:
+    //             {
+    //                 ...inputValue
+    //             },
+    //             credentials: "include"
+    //         });
+    //         const { success, message } = await data.json();
+    //         if (success)
+    //         {
+    //             console.log("SUCESS SIGNUP");
+    //             setTimeout(() =>
+    //             {
+    //                 navigate("/");
+    //             }, 1000);
+    //         }
+    //         else
+    //         {                    {/*...register("password", { required: "Password is required" })*/} ERROR SIGNUP: " + error);
+    //     }
+    //     setInputvalue(
+    //     {
+    //         ...inputValue,
+    //         email: "",
+    //         password: "",
+    //         name: "",
+    //         role: "guest"
+    //     });
+    // };
+
+    return(
+        <Box
+            minH="100vh"
+            spaceX="20px"
+            bg={"green.200"}
+            aria-label="The API Menu page's background is light green"
+        >
+            <Heading
+                as={"h1"}
+                size={"4xl"}
+                textAlign={"left"}
+                mb={8} paddingLeft={"20px"}
+                aria-label={"Signup page header"}
+            >
+                Signup
+            </Heading>
+
+            <Field
+                label="Email"
+                required
+                errorText="This field is required"
+                aria-label="A required Input Field that accepts an email as text.  The field is labeled with Email and a red asterisk.  The placeholder text says me@example.com"
+            >
+                <Input
+                    placeholder="me@example.com"
+                    variant="solid"
+                />
+            </Field>
+            <br />
+
+
+            <Field
+                label="Name"
+                required
+                errorText="This field is required"
+                aria-label="A required Input Field that accepts a name as text.  The field is labeled with Name and a red asterisk.  The placeholder text says John Smith"
+            >
+                <Input
+                    placeholder="John Smith"
+                    variant="solid"
+                />
+            </Field>
+            <br />
+
+            <Stack>
+                <Field
+                    label="Password"
+                    required
+                    errorText="This field is required"
+                    aria-label="A required Input Field that accepts a password as text.  The field is labeled with Password and a red asterisk.  The placeholder text says password."
+                >
+                    <PasswordInput
+                        variant="solid"
+                        defaultValue="password"
+                        visible={visible}
+                        onVisibleChange={setVisible}
+                        aria-label={"Password is " + visible}
+                    />
+                </Field>
+            </Stack>
+
+        </Box>
+    );
+};
+
+export default Signup;
+
+
+
+"use client"
+
+import { Button, Input, Stack } from "@chakra-ui/react"
+import { Field } from "@/components/ui/field"
+import { PasswordInput } from "@/components/ui/password-input"
+import { useForm } from "react-hook-form"
+
+interface FormValues {
+  username: string
+  password: string
+}
+
+const Demo = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>()
+
+  const onSubmit = handleSubmit((data) => console.log(data))
+
+  return (
+    <form onSubmit={onSubmit}>
+      <Stack gap="4" align="flex-start" maxW="sm">
+        <Field
+          label="Username"
+          invalid={!!errors.username}
+          errorText={errors.username?.message}
+        >
+          <Input
+            {...register("username", { required: "Username is required" })}
+          />
+        </Field>
+
+        <Field
+          label="Password"
+          invalid={!!errors.password}
+          errorText={errors.password?.message}
+        >
+          <PasswordInput
+            {...register("password", { required: "Password is required" })}
+          />
+        </Field>
+
+        <Button type="submit">Submit</Button>
+      </Stack>
+    </form>
+  )
+}
